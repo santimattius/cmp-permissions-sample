@@ -9,6 +9,7 @@ import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,12 +24,13 @@ data class HomeUiState(
 
 class HomeScreenModel(
     private val repository: PictureRepository,
-    private val controller: PermissionsController
+    val controller: PermissionsController
 ) : StateScreenModel<HomeUiState>(HomeUiState()) {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
         mutableState.update { it.copy(isLoading = false, hasError = true) }
     }
+    private var job: Job? = null
 
     init {
         randomImage()
@@ -36,7 +38,8 @@ class HomeScreenModel(
 
     fun randomImage() {
         mutableState.update { it.copy(isLoading = true, hasError = false) }
-        screenModelScope.launch(exceptionHandler) {
+        job?.cancel()
+        job = screenModelScope.launch(exceptionHandler) {
             repository.random().onSuccess { picture ->
                 mutableState.update { it.copy(isLoading = false, data = picture) }
             }.onFailure {
@@ -46,7 +49,8 @@ class HomeScreenModel(
     }
 
     fun checkPermission() {
-        screenModelScope.launch(exceptionHandler) {
+        job?.cancel()
+        job = screenModelScope.launch(exceptionHandler) {
             try {
                 controller.providePermission(Permission.GALLERY)
                 mutableState.update {
@@ -58,7 +62,7 @@ class HomeScreenModel(
             } catch (deniedAlways: DeniedAlwaysException) {
                 mutableState.update {
                     it.copy(
-                        permissionGranted = true,
+                        permissionGranted = false,
                         permissionMessage = "Permission denied always"
                     )
                 }

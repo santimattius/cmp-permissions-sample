@@ -34,6 +34,7 @@ import com.santimattius.kmp.skeleton.core.ui.components.AppBar
 import com.santimattius.kmp.skeleton.core.ui.components.ErrorView
 import com.santimattius.kmp.skeleton.core.ui.components.LoadingIndicator
 import com.santimattius.kmp.skeleton.core.ui.components.NetworkImage
+import dev.icerock.moko.permissions.compose.BindEffect
 import kotlinx.coroutines.launch
 
 object HomeScreen : Screen {
@@ -41,6 +42,7 @@ object HomeScreen : Screen {
     @Composable
     override fun Content() {
         val screenModel = getScreenModel<HomeScreenModel>()
+        BindEffect(screenModel.controller)
         HomeScreenContent(screenModel)
     }
 }
