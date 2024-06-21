@@ -38,12 +38,11 @@ kotlin {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
 
-
-
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
 
             implementation(libs.koin.android)
+            implementation(libs.androidx.startup.runtime)
         }
         val commonMain by getting {
             dependencies {
@@ -69,6 +68,9 @@ kotlin {
 
                 api(libs.koin.core)
                 api(libs.koin.compose)
+
+                api(libs.moko.permissions.core)
+                api(libs.moko.permissions.compose)
 
             }
         }
