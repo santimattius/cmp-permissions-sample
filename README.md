@@ -14,6 +14,10 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for
   your project.
 
+## Permissions Libs
+- [Mobile Kotlin runtime permissions multiplatform controller](https://github.com/icerockdev/moko-permissions)
+
+**Important**: add android permission in AndroidManifest and define iOS privacy-sensitive access into Info.plist
 ## Prepare the environment
 
 - Install and configure the latest JDK 17+.
