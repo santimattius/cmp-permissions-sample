@@ -1,4 +1,4 @@
-# KMP Compose Gradle Skeleton
+# Compose Multiplatform Permissions Sample
 
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
